@@ -1,3 +1,5 @@
+echo "KONGING . . ."
+
 docker run -d --name kong-gateway \
  --network=kong-net \
  -e "KONG_DATABASE=postgres" \
