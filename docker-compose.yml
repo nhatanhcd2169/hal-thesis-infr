@@ -1,0 +1,96 @@
+version: '1.0'
+
+services:
+  datastore:
+    image: postgres:${POSTGRES_VERSION}
+    container_name: datastore
+    ports:
+      - "5432:5432"
+    networks:
+      - kong-network
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      interval: 10s
+      timeout: 60s
+      retries: 5
+      start_period: 60s
+
+  migrations:
+    image: kong/kong-gateway:3.3.0.0
+    container_name: migrations
+    depends_on:
+      datastore:
+        condition: service_healthy
+    networks:
+      - kong-network
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=datastore
+      - KONG_PG_USER=${POSTGRES_USER}
+      - KONG_PG_PASSWORD=${POSTGRES_PASSWORD}
+    command: kong migrations bootstrap
+
+  gateway:
+    image: kong/kong-gateway:3.3.0.0
+    container_name: gateway
+    depends_on:
+      datastore:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8002:8002"
+      - "8003:8003"
+      - "8004:8004"
+      - "8443:8443"
+      - "8444:8444"
+      - "8445:8445"
+    networks:
+      - kong-network
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=datastore
+      - KONG_PG_USER=${POSTGRES_USER}
+      - KONG_PG_PASSWORD=${POSTGRES_PASSWORD}
+      - KONG_PROXY_ACCESS_LOG=/dev/stdout
+      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001
+      - KONG_ADMIN_GUI_URL=http://localhost:8002
+    healthcheck:
+      test: ["CMD", "kong", "health"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  gateway-inteface:
+    image: pantsel/konga
+    container_name: gateway-interface
+    depends_on:
+      datastore:
+        condition: service_healthy
+      gateway:
+        condition: service_healthy
+    ports:
+      - "1337:1337"
+    networks:
+      - kong-network
+    environment:
+      - TOKEN_SECRET=${TOKEN_SECRET}
+      - DB_ADAPTER=postgres
+      - DB_HOST=datastore
+      - DB_PORT=5432
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_DATABASE=${POSTGRES_DB}
+      - NODE_ENV=development
+
+networks:
+  kong-network: {}
