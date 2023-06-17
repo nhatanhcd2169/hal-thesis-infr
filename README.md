@@ -13,5 +13,5 @@
 1) Open terminal in current folder
 2) `cp .env.example .env`
 3) `nano .env` to edit environment variables
-2) Run `docker compose up -d` to spin up `postgres` - `kong gateway` - `konga` containers
-3) Run `docker compose down -d` to stop all the containers
+4) Run `docker compose up -d` to spin up `postgres` - `kong gateway` - `konga` containers
+5) Run `docker compose down -d` to stop all the containers

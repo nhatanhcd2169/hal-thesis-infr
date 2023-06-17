@@ -70,7 +70,7 @@ services:
       timeout: 10s
       retries: 10
 
-  gateway-inteface:
+  gateway-interface:
     image: pantsel/konga
     container_name: gateway-interface
     depends_on:
@@ -90,7 +90,7 @@ services:
       - DB_USER=${POSTGRES_USER}
       - DB_PASSWORD=${POSTGRES_PASSWORD}
       - DB_DATABASE=${POSTGRES_DB}
-      - NODE_ENV=development
+      - NODE_ENV=${NODE_ENVIRONMENT}
 
 networks:
   kong-network: {}
