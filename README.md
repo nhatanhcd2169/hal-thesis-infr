@@ -10,8 +10,9 @@
 <b>Prequisite</b>: docker, docker-compose
 
 <b>Steps to run</b>:
+
 1) Open terminal in current folder
 2) `cp .env.example .env`
 3) `nano .env` to edit environment variables
-4) Run `docker compose up -d` to spin up `postgres` - `kong gateway` - `konga` containers
-5) Run `docker compose down -d` to stop all the containers
+4) Run `bash start-kong.sh` to start containers
+5) Run `bash stop-kong.sh` to stop the containers
