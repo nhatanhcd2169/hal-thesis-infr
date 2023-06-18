@@ -1,0 +1,48 @@
+networks:
+  service-network:
+    name: kong-net
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.1.1.0/16
+
+services:
+  alpha:
+    container_name: alpha
+    image: timpamungkas/alpha:2.1
+    # platform: linux/amd64
+    restart: unless-stopped
+    networks:
+      - service-network
+    ports:
+      - "9001:9001"
+      
+  beta:
+    container_name: beta
+    image: timpamungkas/beta:2.1
+    # platform: linux/amd64
+    restart: unless-stopped
+    networks:
+      - service-network
+    ports:
+      - "9002:9002"
+      
+  gamma:
+    container_name: gamma
+    image: timpamungkas/gamma:2.1
+    # platform: linux/amd64
+    restart: unless-stopped
+    networks:
+      - service-network
+    ports:
+      - "9003:9003"
+
+  omega:
+    container_name: omega
+    image: timpamungkas/omega:2.1
+    # platform: linux/amd64
+    restart: unless-stopped
+    networks:
+      - service-network
+    ports:
+      - "9004:9004"
