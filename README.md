@@ -5,7 +5,9 @@
 - Ta Gia Hung
 - Nguyen Nhat Anh
 
-<b>Important note</b>: When prompted to add Kong Admin connection in Konga, use container name + port 8001, not 8002 (e.g: `http://gateway:8001`)
+<b>Important note</b>: 
+- When prompted to add Kong Admin connection in Konga, use container name + port 8001, not 8002 (e.g: `http://gateway:8001`)
+- When registering a containerized service, use `http://host.docker.internal:<port>`, not `localhost`
 
 <b>Prequisite</b>: docker, docker-compose
 
