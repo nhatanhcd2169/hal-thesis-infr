@@ -1,11 +1,36 @@
 services:
-  web:
+  web-alpha:
     image: digitalocean/flask-helloworld
-    container_name: web
+    container_name: web-alpha
     ports:
       - "9100:5000"
     networks:
       - service-network
+    command: flask run --host=0.0.0.0 --port=5000
+  web-mama:
+    image: digitalocean/flask-helloworld
+    container_name: web-mama
+    ports:
+      - "9101:5001"
+    networks:
+      - service-network
+    command: flask run --host=0.0.0.0 --port=5001
+  web-papa:
+    image: digitalocean/flask-helloworld
+    container_name: web-papa
+    ports:
+      - "9102:5002"
+    networks:
+      - service-network
+    command: flask run --host=0.0.0.0 --port=5002
+  web-kaka:
+    image: digitalocean/flask-helloworld
+    container_name: web-kaka
+    ports:
+      - "9103:5003"
+    networks:
+      - service-network
+    command: flask run --host=0.0.0.0 --port=5003
 
 networks:
   service-network:
