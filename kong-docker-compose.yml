@@ -70,6 +70,19 @@ services:
       timeout: 10s
       retries: 10
 
+  distributed-tracing:
+    image: openzipkin/zipkin-slim
+    container_name: distributed-tracing
+    depends_on:
+      datastore:
+        condition: service_healthy
+      gateway:
+        condition: service_healthy
+    ports:
+      - "9411:9411"
+    networks:
+      - kong-network
+
   gateway-interface:
     image: pantsel/konga
     container_name: gateway-interface
