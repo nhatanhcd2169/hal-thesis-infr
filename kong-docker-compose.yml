@@ -36,6 +36,8 @@ services:
 
   gateway:
     image: kong/kong-gateway:3.3.0.0
+    volumes:
+      - "./logs/file.log:/file.log"
     container_name: gateway
     depends_on:
       datastore:
