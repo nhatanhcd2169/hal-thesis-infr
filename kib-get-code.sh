@@ -1,0 +1,1 @@
+docker exec -it kibana /usr/share/kibana/bin/kibana-verification-code
