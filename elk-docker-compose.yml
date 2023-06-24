@@ -3,6 +3,7 @@ version: '1.0'
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+    container_name: elasticsearch
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -14,6 +15,7 @@ services:
 
   logstash:
     image: docker.elastic.co/logstash/logstash:${ELK_VERSION}
+    container_name: logstash
     depends_on:
       - elasticsearch
     ports:
@@ -29,6 +31,7 @@ services:
     
   kibana:
     image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
+    container_name: kibana
     depends_on:
       - elasticsearch
     ports:
