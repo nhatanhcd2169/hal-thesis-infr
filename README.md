@@ -1,9 +1,9 @@
 # HAL-Thesis
 
 <b>Collaborators</b>:
-- Huynh Nhat Long
-- Ta Gia Hung
-- Nguyen Nhat Anh
+- Huynh Nhat Long       -       1852522
+- Ta Gia Hung           -       1852433
+- Nguyen Nhat Anh       -       1852236
 
 <b>Important note</b>: 
 - When prompted to add Kong Admin connection in Konga, use container name + port 8001, not 8002 (e.g: `http://gateway:8001`)
