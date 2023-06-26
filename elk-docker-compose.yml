@@ -19,9 +19,9 @@ services:
     image: docker.elastic.co/logstash/logstash:${ELK_VERSION}
     container_name: logstash
     restart: always
-    # volumes:
-    # - ./logstash/:/logstash_dir
-    command: logstash -f /config/logstash-sample.conf 
+    volumes:
+      - ~/thesis/logstash/pipeline/pipeline.conf:/usr/share/logstash/pipeline/pipeline.conf
+    # command: logstash -f /config/logstash-sample.conf 
     depends_on:
       - elasticsearch
     ports:
@@ -30,8 +30,8 @@ services:
       - "9600:9600"
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
-    volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline/
+    # volumes:
+    #   - ./logstash/pipeline:/usr/share/logstash/pipeline/
     networks:
       - elk-network
     
