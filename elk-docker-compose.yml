@@ -12,6 +12,7 @@ services:
     environment:
       - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
       - discovery.type=single-node
+      - xpack.security.enabled=false
     networks:
       - elk-network
 
