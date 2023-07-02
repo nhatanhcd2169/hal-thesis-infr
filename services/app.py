@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.get("/")
 def getty():
-    return "<p>clmm!!!!</p>"
+    return "<p>this is custom API server</p>"
 
 @app.post("/")
 def posty():
