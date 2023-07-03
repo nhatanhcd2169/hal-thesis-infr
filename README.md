@@ -17,7 +17,7 @@
 6) Run `bash stop-kong.sh` to stop the containers
 
 
-Steps to run ELK:
+<b>Steps to run ELK</b>:
 
 1) Run `sudo apt -y install firewalld` to install firewall-cmd
 2) Run `sudo systemctl enable firewalld`
