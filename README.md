@@ -5,10 +5,6 @@
 - Ta Gia Hung           -       1852433
 - Nguyen Nhat Anh       -       1852236
 
-<b>Important note</b>: 
-- When prompted to add Kong Admin connection in Konga, use container name + port 8001, not 8002 (e.g: `http://gateway:8001`)
-- When registering a containerized service, use `http://host.docker.internal:<port>`, not `localhost`
-
 <b>Prequisite</b>: docker, docker-compose
 
 <b>Steps to run</b>:
@@ -30,5 +26,12 @@ Steps to run ELK:
         sudo firewall-cmd --add-port=5601/tcp --permanent 
         sudo firewall-cmd --add-port=9600/tcp --permanent
         sudo firewall-cmd --add-port=9300/tcp --permanent
-        sudo firewall-cmd --reload` to turn off firewall 
+        sudo firewall-cmd --reload` to turn off firewall
 
+
+<b>Important note</b>: 
+- When prompted to add Kong Admin connection in Konga, use container name + port 8001, not 8002 (e.g: `http://gateway:8001`)
+- When registering a containerized service in the same machine, use `http://host.docker.internal:<port>`, not `localhost`
+- ELK stack currently runs in HTTP security (no SSL encryption), which we will implement later
+- Analytics on Kong logs are still pending
+- Internal visualization is still pending
