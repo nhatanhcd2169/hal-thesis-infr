@@ -1,55 +1,103 @@
 services:
-  web-5000:
-    image: flask-crud
+  build-base:
+    image: multi-service-base
+    build: 
+      context: services/multi
+      dockerfile: Dockerfile.base
+
+  service-01:
+    depends_on:
+      build-base:
+        condition: service_completed_successfully
+    image: service-01
     build:
-      context: services/single
-    container_name: web-5000
+      context: services/multi
+      dockerfile: Dockerfile.01
     ports:
       - "9100:5000"
     networks:
       - service-network
-    command: flask run --host=0.0.0.0 --port=5000
-  web-5001:
-    image: flask-crud
-    build:
-      context: services/single
-    container_name: web-5001
-    ports:
-      - "9101:5001"
-    networks:
-      - service-network
-    command: flask run --host=0.0.0.0 --port=5001
-  web-5002:
-    image: flask-crud
-    build:
-      context: services/single
-    container_name: web-5002
-    ports:
-      - "9102:5002"
-    networks:
-      - service-network
-    command: flask run --host=0.0.0.0 --port=5002
-  web-5003:
-    image: flask-crud
-    build:
-      context: services/single
-    container_name: web-5003
-    ports:
-      - "9103:5003"
-    networks:
-      - service-network
-    command: flask run --host=0.0.0.0 --port=5003
+    command: flask --app app run --host=0.0.0.0 --port=5000
 
-  web-5004:
-    image: flask-crud
+  service-02:
+    depends_on:
+      build-base:
+        condition: service_completed_successfully
+    image: service-02
     build:
-      context: services/single
-    container_name: web-5004
+      context: services/multi
+      dockerfile: Dockerfile.02
     ports:
-      - "9104:5004"
+      - "9101:5000"
     networks:
       - service-network
-    command: flask run --host=0.0.0.0 --port=5004
+    command: flask --app app run --host=0.0.0.0 --port=5000
+
+  service-03:
+    depends_on:
+      build-base:
+        condition: service_completed_successfully
+    image: service-03
+    build:
+      context: services/multi
+      dockerfile: Dockerfile.03
+    ports:
+      - "9102:5000"
+    networks:
+      - service-network
+    command: flask --app app run --host=0.0.0.0 --port=5000
+
+  # web-5000:
+  #   image: flask-crud
+  #   build:
+  #     context: services/single
+  #   container_name: web-5000
+  #   ports:
+  #     - "9100:5000"
+  #   networks:
+  #     - service-network
+  #   command: flask run --host=0.0.0.0 --port=5000
+  # web-5001:
+  #   image: flask-crud
+  #   build:
+  #     context: services/single
+  #   container_name: web-5001
+  #   ports:
+  #     - "9101:5001"
+  #   networks:
+  #     - service-network
+  #   command: flask run --host=0.0.0.0 --port=5001
+  # web-5002:
+  #   image: flask-crud
+  #   build:
+  #     context: services/single
+  #   container_name: web-5002
+  #   ports:
+  #     - "9102:5002"
+  #   networks:
+  #     - service-network
+  #   command: flask run --host=0.0.0.0 --port=5002
+  # web-5003:
+  #   image: flask-crud
+  #   build:
+  #     context: services/single
+  #   container_name: web-5003
+  #   ports:
+  #     - "9103:5003"
+  #   networks:
+  #     - service-network
+  #   command: flask run --host=0.0.0.0 --port=5003
+
+  # web-5004:
+  #   image: flask-crud
+  #   build:
+  #     context: services/single
+  #   container_name: web-5004
+  #   ports:
+  #     - "9104:5004"
+  #   networks:
+  #     - service-network
+  #   command: flask run --host=0.0.0.0 --port=5004
 
 networks:
   service-network:
