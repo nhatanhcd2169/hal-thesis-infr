@@ -40,14 +40,14 @@ def log_request_info():
 @zipkin_client_span(service_name='service_02', span_name='call_service_02_from_service_01')
 def call_service_02():
     headers = create_http_headers()
-    requests.get('http://service-02:5000/', headers=headers)
+    requests.get(f'http://{address}:8000/service-02', headers=headers)
     return 'OK'
 
 
 @zipkin_client_span(service_name='service_03', span_name='call_service_03_from_service_01')
 def call_service_03():
     headers = create_http_headers()
-    requests.get('http://service-03:5000/', headers=headers)
+    requests.get(f'http://{address}:8000/service-03', headers=headers)
     return 'OK'
 
 
