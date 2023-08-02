@@ -1,6 +1,8 @@
 services:
   web-5000:
-    image: digitalocean/flask-helloworld
+    image: flask-crud
+    build:
+      context: services
     container_name: web-5000
     ports:
       - "9100:5000"
@@ -8,7 +10,9 @@ services:
       - service-network
     command: flask run --host=0.0.0.0 --port=5000
   web-5001:
-    image: digitalocean/flask-helloworld
+    image: flask-crud
+    build:
+      context: services
     container_name: web-5001
     ports:
       - "9101:5001"
@@ -16,7 +20,9 @@ services:
       - service-network
     command: flask run --host=0.0.0.0 --port=5001
   web-5002:
-    image: digitalocean/flask-helloworld
+    image: flask-crud
+    build:
+      context: services
     container_name: web-5002
     ports:
       - "9102:5002"
@@ -24,7 +30,9 @@ services:
       - service-network
     command: flask run --host=0.0.0.0 --port=5002
   web-5003:
-    image: digitalocean/flask-helloworld
+    image: flask-crud
+    build:
+      context: services
     container_name: web-5003
     ports:
       - "9103:5003"
