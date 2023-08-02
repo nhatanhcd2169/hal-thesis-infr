@@ -1,7 +1,8 @@
 FROM multi-service-base
 
-WORKDIR /app
+WORKDIR /web
 
-COPY service-02/app.py /app.py
+COPY service-02/app.py .
+COPY .env .
 
 CMD flask run --host=0.0.0.0

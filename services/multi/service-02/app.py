@@ -47,6 +47,13 @@ def call_service_03():
 def index():
     with zipkin_span(
         service_name='service_02',
+        zipkin_attrs=ZipkinAttrs(
+            trace_id=request.headers['X-B3-TraceID'],
+            span_id=request.headers['X-B3-SpanID'],
+            parent_span_id=request.headers['X-B3-ParentSpanID'],
+            flags=1,
+            is_sampled=request.headers['X-B3-Sampled'],
+        ),
         span_name='index_service_02',
         transport_handler=default_handler,
         port=5000,
