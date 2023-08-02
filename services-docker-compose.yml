@@ -2,7 +2,7 @@ services:
   web-5000:
     image: flask-crud
     build:
-      context: services
+      context: services/single
     container_name: web-5000
     ports:
       - "9100:5000"
@@ -12,7 +12,7 @@ services:
   web-5001:
     image: flask-crud
     build:
-      context: services
+      context: services/single
     container_name: web-5001
     ports:
       - "9101:5001"
@@ -22,7 +22,7 @@ services:
   web-5002:
     image: flask-crud
     build:
-      context: services
+      context: services/single
     container_name: web-5002
     ports:
       - "9102:5002"
@@ -32,7 +32,7 @@ services:
   web-5003:
     image: flask-crud
     build:
-      context: services
+      context: services/single
     container_name: web-5003
     ports:
       - "9103:5003"
@@ -43,7 +43,7 @@ services:
   web-5004:
     image: flask-crud
     build:
-      context: services
+      context: services/single
     container_name: web-5004
     ports:
       - "9104:5004"
