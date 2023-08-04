@@ -9,6 +9,8 @@
 
 <b>Steps to run</b>:
 
+Locally: bash <(curl -sS https://get.konghq.com/install) -v 3.3.1.0
+
 1) Open terminal in current folder
 2) `cp .env.example .env`
 3) `nano .env` to edit environment variables
