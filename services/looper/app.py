@@ -6,8 +6,8 @@ import os
 
 dotenv.load_dotenv()
 
+INTERVAL = os.environ.get('INTERVAL', 6)
 address = os.environ.get('ADDRESS', 'empty')
-
 if address == 'empty':
     raise Exception('EMPTY ADDRESS')
 
@@ -31,5 +31,5 @@ while True:
         'itr': itr,
         'test': True
     })
-    time.sleep(6)
+    time.sleep(INTERVAL)
     
