@@ -6,7 +6,7 @@ import os
 
 dotenv.load_dotenv()
 
-INTERVAL = os.environ.get('INTERVAL', 6)
+INTERVAL = int(os.environ.get('INTERVAL', '6'))
 address = os.environ.get('ADDRESS', 'empty')
 if address == 'empty':
     raise Exception('EMPTY ADDRESS')
