@@ -1,13 +1,13 @@
 FROM python:3.10
 
-WORKDIR /app
+WORKDIR /web
 
-COPY app.py .
+COPY looper/app.py .
 
 COPY .env .
 
-RUN pip install requests
-
 RUN pip install python-dotenv
+
+RUN pip install requests
 
 CMD python app.py
