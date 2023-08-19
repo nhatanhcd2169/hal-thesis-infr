@@ -1,1 +1,1 @@
-docker compose -f kong.docker-compose.yml down
+docker compose -f kong.docker-compose.yml -p kong down

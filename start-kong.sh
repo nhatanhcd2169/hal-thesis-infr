@@ -2,4 +2,4 @@ mkdir logs
 
 touch logs/file.log
 
-docker compose -f kong.docker-compose.yml up -d
+docker compose -f kong.docker-compose.yml -p kong up -d 

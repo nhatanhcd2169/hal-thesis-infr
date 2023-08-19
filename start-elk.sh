@@ -1,1 +1,1 @@
-docker compose -f elk.docker-compose.yml up -d
+docker compose -f elk.docker-compose.yml -p elastic up -d
