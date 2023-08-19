@@ -25,11 +25,11 @@ itr = 0
 while True:
     itr += 1
     for tail in tails:
-        for _ in range(20):
+        for _ in range(10):
             requests.get(URL + tail)
-    requests.post(URL + tails[-1], {
-        'itr': itr,
-        'test': True
-    })
+            requests.post(URL + tails[-1], {
+                'itr': itr,
+                'test': True
+            })
     time.sleep(INTERVAL)
     
