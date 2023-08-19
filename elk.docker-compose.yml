@@ -4,8 +4,6 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
     container_name: elasticsearch
-    # volumes:
-    #   - ~/thesis/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -14,15 +12,13 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
     networks:
-      - elk-network
+      - elastic
 
   logstash:
     image: docker.elastic.co/logstash/logstash:${ELK_VERSION}
     container_name: logstash
-    restart: always
     volumes:
-      - ~/thesis/logstash/pipeline/pipeline.conf:/usr/share/logstash/pipeline/pipeline.conf
-    # command: logstash -f /config/logstash-sample.conf 
+      - ~/thesis/config/logstash/pipeline/pipeline.conf:/usr/share/logstash/pipeline/pipeline.conf
     depends_on:
       - elasticsearch
     ports:
@@ -31,27 +27,26 @@ services:
       - "9600:9600"
       - "8080:8080"
     environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-    # volumes:
-    #   - ./logstash/pipeline:/usr/share/logstash/pipeline/
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     networks:
-      - elk-network
+      - elastic
     
   kibana:
     image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
     container_name: kibana
     depends_on:
       - elasticsearch
+    volumes:
+      - ./config/kibana/kibana.keystore:/usr/share/kibana/config/kibana.keystore
     ports:
       - "5601:5601"
     environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - SERVER_NAME=kibana
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     networks:
-      - elk-network
-  # volumes:
-  # elastic_data: {}
+      - elastic
     
 networks:
-  elk-network:
-    external:
-      name: thesis_kong-network
+  elastic:
+    name: thesis
+    external: true

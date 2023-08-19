@@ -1,1 +1,2 @@
-docker compose -f elk-docker-compose.yml down
+docker compose -f elk.docker-compose.yml down
+rm config/kibana/*

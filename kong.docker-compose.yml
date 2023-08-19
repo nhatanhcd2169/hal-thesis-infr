@@ -7,7 +7,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - kong-network
+      - kong
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -26,7 +26,7 @@ services:
       datastore:
         condition: service_healthy
     networks:
-      - kong-network
+      - kong
     environment:
       - KONG_DATABASE=postgres
       - KONG_PG_HOST=datastore
@@ -54,7 +54,7 @@ services:
       - "8444:8444"
       - "8445:8445"
     networks:
-      - kong-network
+      - kong
     environment:
       - KONG_DATABASE=postgres
       - KONG_PG_HOST=datastore
@@ -83,7 +83,7 @@ services:
     ports:
       - "9411:9411"
     networks:
-      - kong-network
+      - kong
 
   gateway-interface:
     image: pantsel/konga
@@ -96,7 +96,7 @@ services:
     ports:
       - "1337:1337"
     networks:
-      - kong-network
+      - kong
     environment:
       - TOKEN_SECRET=${TOKEN_SECRET}
       - DB_ADAPTER=postgres
@@ -108,4 +108,6 @@ services:
       - NODE_ENV=${NODE_ENVIRONMENT}
 
 networks:
-  kong-network: {}
+  kong:
+    name: thesis
+    external: true

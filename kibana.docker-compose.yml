@@ -1,0 +1,14 @@
+version: '1.0'
+services: 
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
+    container_name: kibanana
+    volumes:
+      - ./config/kibana:/usr/share/kibana/temp
+    networks:
+      - elastic
+
+networks:
+  elastic:
+    name: thesis
+    external: true
