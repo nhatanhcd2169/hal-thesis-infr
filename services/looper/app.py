@@ -4,6 +4,9 @@ import json
 import dotenv
 import os
 import base64
+import logging
+
+logger = logging.getLogger("looper")
 
 dotenv.load_dotenv()
 
@@ -34,6 +37,7 @@ while True:
     for tail in tails:
         for _ in range(20):
             requests.get(URL + tail, headers=headers[0])
+            logging.info(f"Called [GET] {URL + tail}")
             requests.post(
                 URL + tails[-1], 
                 json={
@@ -42,8 +46,11 @@ while True:
                 },
                 headers=headers[0]
             )
+            logging.info(f"Called [POST] {URL + tails[-1]}")
+
     for _ in range(4):
         requests.get(URL + tail)
+        logging.info(f"Called [GET] {URL + tail}")
         requests.post(
             URL + tails[-1], 
             json={
@@ -52,5 +59,7 @@ while True:
             },
             headers=headers[1]
         )
+        logging.info(f"Called [POST] {URL + tails[-1]}")
+
     time.sleep(INTERVAL)
     

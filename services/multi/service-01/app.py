@@ -51,7 +51,7 @@ def call_service_03():
     return 'OK'
 
 
-@app.route('/')
+@app.get('/')
 def index():
     with zipkin_span(
         service_name='service_01',
@@ -66,4 +66,3 @@ def index():
     return 'OK', 200
 
 
-app.run(debug=True, host='0.0.0.0', threaded=True)

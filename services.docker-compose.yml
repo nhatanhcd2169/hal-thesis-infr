@@ -5,6 +5,8 @@ services:
       context: services/multi
       dockerfile: Dockerfile.base
     container_name: pre-build
+    networks:
+      - services
 
   service-01:
     depends_on:
@@ -19,7 +21,6 @@ services:
       - "9100:5000"
     networks:
       - services
-    command: flask --app app run --host=0.0.0.0 --port=5000
 
   service-02:
     depends_on:
@@ -34,7 +35,6 @@ services:
       - "9101:5000"
     networks:
       - services
-    command: flask --app app run --host=0.0.0.0 --port=5000
 
   service-03:
     depends_on:
@@ -49,7 +49,6 @@ services:
       - "9102:5000"
     networks:
       - services
-    command: flask --app app run --host=0.0.0.0 --port=5000
 
   service-single:
     image: service-single
@@ -60,7 +59,6 @@ services:
       - "9103:5000"
     networks:
       - services
-    command: flask --app app run --host=0.0.0.0 --port=5000
 
   service-looper:
     build:
