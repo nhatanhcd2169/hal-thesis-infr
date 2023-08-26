@@ -2,325 +2,391 @@
     "createdUser": null,
     "updatedUser": null,
     "id": 2,
-    "name": "my-snapshot-13082023",
+    "name": "26082023",
     "kong_node_name": "conn",
     "kong_node_url": "http://gateway:8001",
     "kong_version": "3.3.0.0",
     "data": {
         "services": [
             {
-                "tls_verify": null,
-                "tls_verify_depth": null,
-                "connect_timeout": 60000,
-                "read_timeout": 60000,
                 "protocol": "http",
-                "tags": [],
-                "name": "service-01",
-                "client_certificate": null,
-                "id": "c1f0b73d-0937-4647-bd88-42f1a227b73d",
-                "updated_at": 1691923211,
-                "retries": 5,
-                "enabled": true,
-                "ca_certificates": null,
-                "host": "ec2-54-179-235-162.ap-southeast-1.compute.amazonaws.com",
-                "write_timeout": 60000,
+                "host": "ec2-13-212-71-4.ap-southeast-1.compute.amazonaws.com",
                 "created_at": 1690979328,
+                "retries": 5,
+                "client_certificate": null,
                 "port": 9100,
+                "enabled": true,
+                "ca_certificates": null,
                 "path": null,
+                "tags": [],
+                "id": "c1f0b73d-0937-4647-bd88-42f1a227b73d",
+                "write_timeout": 60000,
+                "name": "service-01",
+                "updated_at": 1693046228,
+                "connect_timeout": 60000,
+                "tls_verify": null,
+                "read_timeout": 60000,
+                "tls_verify_depth": null,
                 "extras": {}
             },
             {
-                "tls_verify": null,
-                "tls_verify_depth": null,
-                "connect_timeout": 60000,
-                "read_timeout": 60000,
                 "protocol": "http",
-                "tags": [],
-                "name": "service-02",
-                "client_certificate": null,
-                "id": "e0433000-eb14-40d0-bad0-be10a7baea26",
-                "updated_at": 1691923221,
-                "retries": 5,
-                "enabled": true,
-                "ca_certificates": null,
-                "host": "ec2-54-179-235-162.ap-southeast-1.compute.amazonaws.com",
-                "write_timeout": 60000,
+                "host": "ec2-13-212-71-4.ap-southeast-1.compute.amazonaws.com",
                 "created_at": 1690979337,
+                "retries": 5,
+                "client_certificate": null,
                 "port": 9101,
+                "enabled": true,
+                "ca_certificates": null,
                 "path": null,
+                "tags": [],
+                "id": "e0433000-eb14-40d0-bad0-be10a7baea26",
+                "write_timeout": 60000,
+                "name": "service-02",
+                "updated_at": 1693046228,
+                "connect_timeout": 60000,
+                "tls_verify": null,
+                "read_timeout": 60000,
+                "tls_verify_depth": null,
                 "extras": {}
             },
             {
-                "tls_verify": null,
-                "tls_verify_depth": null,
-                "connect_timeout": 60000,
-                "read_timeout": 60000,
                 "protocol": "http",
-                "tags": [],
-                "name": "service-03",
-                "client_certificate": null,
-                "id": "f429328d-336b-4488-8a9a-a267aa24a415",
-                "updated_at": 1691923199,
-                "retries": 5,
-                "enabled": true,
-                "ca_certificates": null,
-                "host": "ec2-54-179-235-162.ap-southeast-1.compute.amazonaws.com",
-                "write_timeout": 60000,
+                "host": "ec2-13-212-71-4.ap-southeast-1.compute.amazonaws.com",
                 "created_at": 1690979344,
+                "retries": 5,
+                "client_certificate": null,
                 "port": 9102,
+                "enabled": true,
+                "ca_certificates": null,
                 "path": null,
+                "tags": [],
+                "id": "f429328d-336b-4488-8a9a-a267aa24a415",
+                "write_timeout": 60000,
+                "name": "service-03",
+                "updated_at": 1693046228,
+                "connect_timeout": 60000,
+                "tls_verify": null,
+                "read_timeout": 60000,
+                "tls_verify_depth": null,
                 "extras": {}
             },
             {
-                "tls_verify": null,
-                "tls_verify_depth": null,
-                "connect_timeout": 60000,
-                "read_timeout": 60000,
                 "protocol": "http",
-                "tags": [],
-                "name": "service-single",
-                "client_certificate": null,
-                "id": "f580878c-7f31-491d-bcdd-0e95b7985aa6",
-                "updated_at": 1691923252,
+                "host": "ec2-13-212-71-4.ap-southeast-1.compute.amazonaws.com",
+                "created_at": 1691923252,
                 "retries": 5,
+                "client_certificate": null,
+                "port": 9103,
                 "enabled": true,
                 "ca_certificates": null,
-                "host": "ec2-54-179-235-162.ap-southeast-1.compute.amazonaws.com",
-                "write_timeout": 60000,
-                "created_at": 1691923252,
-                "port": 9103,
                 "path": null,
-                "extras": {
-                    "id": 1,
-                    "service_id": "f580878c-7f31-491d-bcdd-0e95b7985aa6",
-                    "kong_node_id": "1",
-                    "description": null,
-                    "tags": null,
-                    "createdAt": "2023-08-13T10:40:52.000Z",
-                    "updatedAt": "2023-08-13T10:40:52.000Z",
-                    "createdUser": null,
-                    "updatedUser": null
-                }
+                "tags": [],
+                "id": "f580878c-7f31-491d-bcdd-0e95b7985aa6",
+                "write_timeout": 60000,
+                "name": "service-single",
+                "updated_at": 1693046228,
+                "connect_timeout": 60000,
+                "tls_verify": null,
+                "read_timeout": 60000,
+                "tls_verify_depth": null,
+                "extras": {}
             }
         ],
         "routes": [
             {
-                "headers": null,
+                "request_buffering": true,
+                "response_buffering": true,
+                "https_redirect_status_code": 426,
                 "regex_priority": 0,
+                "created_at": 1690979360,
+                "protocols": [
+                    "http",
+                    "https"
+                ],
+                "service": {
+                    "id": "c1f0b73d-0937-4647-bd88-42f1a227b73d"
+                },
+                "path_handling": "v1",
+                "destinations": null,
+                "strip_path": true,
+                "tags": null,
+                "hosts": null,
+                "id": "080732e8-40f9-44a9-ae61-cd5e1ad74425",
+                "updated_at": 1693046234,
+                "snis": null,
+                "preserve_host": false,
+                "methods": null,
                 "paths": [
                     "/service-01"
                 ],
                 "sources": null,
-                "hosts": null,
+                "name": "service-01",
+                "headers": null
+            },
+            {
                 "request_buffering": true,
                 "response_buffering": true,
+                "https_redirect_status_code": 426,
+                "regex_priority": 0,
+                "created_at": 1690979407,
                 "protocols": [
                     "http",
                     "https"
                 ],
-                "methods": null,
-                "path_handling": "v1",
-                "https_redirect_status_code": 426,
-                "name": "service-01",
-                "strip_path": true,
-                "id": "080732e8-40f9-44a9-ae61-cd5e1ad74425",
-                "updated_at": 1691923111,
                 "service": {
-                    "id": "c1f0b73d-0937-4647-bd88-42f1a227b73d"
+                    "id": "f429328d-336b-4488-8a9a-a267aa24a415"
                 },
-                "tags": null,
+                "path_handling": "v1",
                 "destinations": null,
+                "strip_path": true,
+                "tags": null,
+                "hosts": null,
+                "id": "0fceab5b-e916-422a-abfe-b68cc380c0ce",
+                "updated_at": 1693046234,
                 "snis": null,
-                "created_at": 1690979360,
-                "preserve_host": false
-            },
-            {
-                "headers": null,
-                "regex_priority": 0,
+                "preserve_host": false,
+                "methods": null,
                 "paths": [
                     "/service-03"
                 ],
                 "sources": null,
-                "hosts": null,
+                "name": "service-03",
+                "headers": null
+            },
+            {
                 "request_buffering": true,
                 "response_buffering": true,
+                "https_redirect_status_code": 426,
+                "regex_priority": 0,
+                "created_at": 1690979384,
                 "protocols": [
                     "http",
                     "https"
                 ],
-                "methods": null,
-                "path_handling": "v1",
-                "https_redirect_status_code": 426,
-                "name": "service-03",
-                "strip_path": true,
-                "id": "0fceab5b-e916-422a-abfe-b68cc380c0ce",
-                "updated_at": 1691923111,
                 "service": {
-                    "id": "f429328d-336b-4488-8a9a-a267aa24a415"
+                    "id": "e0433000-eb14-40d0-bad0-be10a7baea26"
                 },
-                "tags": null,
+                "path_handling": "v1",
                 "destinations": null,
+                "strip_path": true,
+                "tags": null,
+                "hosts": null,
+                "id": "a1d880ad-d876-4a0b-b105-90b6feb3f800",
+                "updated_at": 1693046234,
                 "snis": null,
-                "created_at": 1690979407,
-                "preserve_host": false
-            },
-            {
-                "headers": null,
-                "regex_priority": 0,
+                "preserve_host": false,
+                "methods": null,
                 "paths": [
                     "/service-02"
                 ],
                 "sources": null,
-                "hosts": null,
+                "name": "service-02",
+                "headers": null
+            },
+            {
                 "request_buffering": true,
                 "response_buffering": true,
+                "https_redirect_status_code": 426,
+                "regex_priority": 0,
+                "created_at": 1691923264,
                 "protocols": [
                     "http",
                     "https"
                 ],
-                "methods": null,
-                "path_handling": "v1",
-                "https_redirect_status_code": 426,
-                "name": "service-02",
-                "strip_path": true,
-                "id": "a1d880ad-d876-4a0b-b105-90b6feb3f800",
-                "updated_at": 1691923111,
                 "service": {
-                    "id": "e0433000-eb14-40d0-bad0-be10a7baea26"
+                    "id": "f580878c-7f31-491d-bcdd-0e95b7985aa6"
                 },
-                "tags": null,
+                "path_handling": "v1",
                 "destinations": null,
+                "strip_path": true,
+                "tags": null,
+                "hosts": null,
+                "id": "d6802181-f3f9-4c6c-9ef4-d47abd8901ea",
+                "updated_at": 1693046234,
                 "snis": null,
-                "created_at": 1690979384,
-                "preserve_host": false
-            },
-            {
-                "headers": null,
-                "regex_priority": 0,
+                "preserve_host": false,
+                "methods": null,
                 "paths": [
                     "/service-single"
                 ],
                 "sources": null,
-                "hosts": null,
-                "request_buffering": true,
-                "response_buffering": true,
-                "protocols": [
-                    "http",
-                    "https"
-                ],
-                "methods": null,
-                "path_handling": "v1",
-                "https_redirect_status_code": 426,
                 "name": null,
-                "strip_path": true,
-                "id": "d6802181-f3f9-4c6c-9ef4-d47abd8901ea",
-                "updated_at": 1691923264,
+                "headers": null
+            }
+        ],
+        "consumers": [
+            {
+                "username": "dummier",
+                "created_at": 1693046539,
+                "username_lower": "dummier",
+                "id": "8516c9d9-4073-41c8-96e6-96bae78c2043",
+                "updated_at": 1693046539,
+                "custom_id": null,
+                "type": 0,
+                "tags": [],
+                "credentials": {
+                    "basic-auths": [
+                        {
+                            "consumer": {
+                                "id": "8516c9d9-4073-41c8-96e6-96bae78c2043"
+                            },
+                            "id": "dd893e18-0bb4-4dca-aba7-fa1adeef6b1d",
+                            "password": "169836422a0224dae568b97d97e156a26f0edd4d",
+                            "created_at": 1693046545,
+                            "username": "dummier",
+                            "tags": null
+                        }
+                    ]
+                }
+            },
+            {
+                "username": "dummy",
+                "created_at": 1693046526,
+                "username_lower": "dummy",
+                "id": "d5c85f40-4465-4e8d-b62d-2e35471982ce",
+                "updated_at": 1693046526,
+                "custom_id": null,
+                "type": 0,
+                "tags": [],
+                "credentials": {
+                    "basic-auths": [
+                        {
+                            "consumer": {
+                                "id": "d5c85f40-4465-4e8d-b62d-2e35471982ce"
+                            },
+                            "id": "917ebf55-4a68-4a54-b624-c8a732d951cd",
+                            "password": "aa08fd162772aa689edb0886a700cca9d50123a9",
+                            "created_at": 1693046533,
+                            "username": "dummy",
+                            "tags": null
+                        }
+                    ]
+                }
+            }
+        ],
+        "plugins": [
+            {
+                "consumer": null,
+                "ordering": null,
+                "instance_name": null,
+                "created_at": 1693046815,
+                "id": "3082c5c5-75cc-4c5a-bc34-adbc1675c286",
+                "updated_at": 1693046815,
+                "config": {
+                    "anonymous": null,
+                    "hide_credentials": false
+                },
+                "route": null,
                 "service": {
                     "id": "f580878c-7f31-491d-bcdd-0e95b7985aa6"
                 },
-                "tags": null,
-                "destinations": null,
-                "snis": null,
-                "created_at": 1691923264,
-                "preserve_host": false
-            }
-        ],
-        "consumers": [],
-        "plugins": [
-            {
-                "enabled": true,
-                "name": "zipkin",
-                "consumer": null,
-                "service": null,
-                "id": "79bf1c42-9c89-4f39-a214-a99b997b68c1",
-                "updated_at": 1691923288,
-                "ordering": null,
-                "route": null,
-                "instance_name": null,
                 "protocols": [
                     "grpc",
                     "grpcs",
                     "http",
-                    "https"
+                    "https",
+                    "ws",
+                    "wss"
                 ],
+                "enabled": true,
+                "name": "basic-auth",
+                "tags": null
+            },
+            {
+                "consumer": null,
+                "ordering": null,
+                "instance_name": null,
+                "created_at": 1691923288,
+                "id": "79bf1c42-9c89-4f39-a214-a99b997b68c1",
+                "updated_at": 1693046228,
                 "config": {
+                    "queue": {
+                        "max_batch_size": 1,
+                        "max_retry_time": 60,
+                        "max_coalescing_delay": 1,
+                        "max_retry_delay": 60,
+                        "max_bytes": null,
+                        "initial_retry_delay": 0.01,
+                        "max_entries": 10000
+                    },
+                    "tags_header": "Zipkin-Tags",
+                    "static_tags": null,
                     "http_span_name": "method",
                     "traceid_byte_count": 16,
+                    "sample_ratio": 1,
+                    "default_header_type": "b3",
+                    "http_response_header_for_traceid": null,
+                    "phase_duration_flavor": "annotations",
                     "http_endpoint": "http://distributed-tracing:9411/api/v2/spans",
                     "local_service_name": "kong",
                     "default_service_name": null,
-                    "read_timeout": 5000,
-                    "phase_duration_flavor": "annotations",
                     "header_type": "preserve",
-                    "include_credential": true,
-                    "http_response_header_for_traceid": null,
-                    "queue": {
-                        "max_bytes": null,
-                        "initial_retry_delay": 0.01,
-                        "max_retry_delay": 60,
-                        "max_retry_time": 60,
-                        "max_batch_size": 1,
-                        "max_coalescing_delay": 1,
-                        "max_entries": 10000
-                    },
+                    "connect_timeout": 2000,
                     "send_timeout": 5000,
-                    "default_header_type": "b3",
-                    "sample_ratio": 1,
-                    "tags_header": "Zipkin-Tags",
-                    "static_tags": null,
-                    "connect_timeout": 2000
+                    "read_timeout": 5000,
+                    "include_credential": true
                 },
-                "tags": null,
-                "created_at": 1691923288
-            },
-            {
-                "enabled": true,
-                "name": "file-log",
-                "consumer": null,
-                "service": null,
-                "id": "8b1b0542-9841-40fe-9efe-f066fe329c8f",
-                "updated_at": 1691923111,
-                "ordering": null,
                 "route": null,
-                "instance_name": null,
+                "service": null,
                 "protocols": [
                     "grpc",
                     "grpcs",
                     "http",
                     "https"
                 ],
+                "enabled": true,
+                "name": "zipkin",
+                "tags": null
+            },
+            {
+                "consumer": null,
+                "ordering": null,
+                "instance_name": null,
+                "created_at": 1687532973,
+                "id": "8b1b0542-9841-40fe-9efe-f066fe329c8f",
+                "updated_at": 1693046228,
                 "config": {
                     "custom_fields_by_lua": null,
                     "path": "file.log",
                     "reopen": false
                 },
-                "tags": null,
-                "created_at": 1687532973
-            },
-            {
-                "enabled": true,
-                "name": "udp-log",
-                "consumer": null,
-                "service": null,
-                "id": "e73921f6-9945-4878-9a27-6087b5ec4968",
-                "updated_at": 1691923307,
-                "ordering": null,
                 "route": null,
-                "instance_name": null,
+                "service": null,
                 "protocols": [
                     "grpc",
                     "grpcs",
                     "http",
                     "https"
                 ],
+                "enabled": true,
+                "name": "file-log",
+                "tags": null
+            },
+            {
+                "consumer": null,
+                "ordering": null,
+                "instance_name": null,
+                "created_at": 1691923307,
+                "id": "e73921f6-9945-4878-9a27-6087b5ec4968",
+                "updated_at": 1693046228,
                 "config": {
-                    "timeout": 100,
-                    "custom_fields_by_lua": null,
                     "port": 5555,
-                    "host": "logstash"
+                    "host": "logstash",
+                    "timeout": 100,
+                    "custom_fields_by_lua": null
                 },
-                "tags": null,
-                "created_at": 1691923307
+                "route": null,
+                "service": null,
+                "protocols": [
+                    "grpc",
+                    "grpcs",
+                    "http",
+                    "https"
+                ],
+                "enabled": true,
+                "name": "udp-log",
+                "tags": null
             }
         ],
         "acls": [],
@@ -328,6 +394,6 @@
         "certificates": [],
         "snis": []
     },
-    "createdAt": "2023-08-13T11:40:54.000Z",
-    "updatedAt": "2023-08-13T11:40:54.000Z"
+    "createdAt": "2023-08-26T15:51:41.000Z",
+    "updatedAt": "2023-08-26T15:51:41.000Z"
 }

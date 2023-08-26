@@ -5,6 +5,7 @@ import dotenv
 import os
 import base64
 import logging
+import random
 
 logger = logging.getLogger("looper")
 
@@ -32,10 +33,12 @@ headers = [
     {'Authorization': f'Basic %s' % base64.b64encode(b"dummier:dummier").decode()},
 ]
 
+range_1, range_2 = (0, 15), (0, 6)
+
 while True:
     itr += 1
     for tail in tails:
-        for _ in range(20):
+        for _ in range(random.randint(*range_1)):
             requests.get(URL + tail, headers=headers[0])
             logging.info(f"Called [GET] {URL + tail}")
             requests.post(
@@ -48,9 +51,9 @@ while True:
             )
             logging.info(f"Called [POST] {URL + tails[-1]}")
 
-    for _ in range(4):
-        requests.get(URL + tail)
-        logging.info(f"Called [GET] {URL + tail}")
+    for _ in range(random.randint(*range_2)):
+        requests.get(URL + tails[-1])
+        logging.info(f"Called [GET] {URL + tails[-1]}")
         requests.post(
             URL + tails[-1], 
             json={
