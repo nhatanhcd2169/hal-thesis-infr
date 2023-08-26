@@ -1,1 +1,0 @@
-docker exec -it elasticsearch /usr/share/elasticsearch/bin/elasticsearch-reset-password -u $1

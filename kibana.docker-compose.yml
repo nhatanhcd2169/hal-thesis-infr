@@ -1,5 +1,5 @@
 version: '1.0'
-services: 
+services:
   kibana:
     image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
     container_name: kibanana
