@@ -3,3 +3,4 @@ docker compose -f kibana.docker-compose.yml run --rm kibana bin/kibana-encryptio
 python3 parse.py
 chmod 777 config/kibana/encrypt.sh
 docker compose -f kibana.docker-compose.yml run --rm kibana sh temp/encrypt.sh
+rm -f config/kibana/encrypt.* 
