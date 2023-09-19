@@ -5,7 +5,7 @@ from celery.schedules import crontab
 REDIS_URL = os.environ.get("REDIS_URL", None)
 assert REDIS_URL
 
-PREDICT_RANGE = os.environ.get("PREDICT_RANGE", "{}")
+PREDICT_RANGE = os.environ.get("PREDICT_RANGE", "{\"days\": 1}")
 PREDICT_RANGE = json.loads(PREDICT_RANGE)
 
 broker_url = REDIS_URL
