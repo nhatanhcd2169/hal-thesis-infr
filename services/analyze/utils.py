@@ -15,10 +15,6 @@ POSTGRES_CONFIG = os.environ.get("POSTGRES_CONFIG", "{}")
 ELASTICSEARCH_CONFIG = json.loads(ELASTICSEARCH_CONFIG)
 POSTGRES_CONFIG = json.loads(POSTGRES_CONFIG)
 
-print(ELASTICSEARCH_INDEX)
-print(ELASTICSEARCH_CONFIG)
-print(POSTGRES_CONFIG)
-
 def check_config(config: dict, fields: list):
     for field in fields:
         if field not in config:
@@ -191,7 +187,7 @@ def timeseries_linear_regression(
     return output
 
 
-def run_linear_function(data, filename: str, predict_range: dict = {}):
+def run_linear_function(data, filename: str, predict_range: dict):
     """
     Feed data into linear regression model
     
@@ -258,7 +254,11 @@ def run_linear_function(data, filename: str, predict_range: dict = {}):
         columns=columns,
         index=index,
     )
-    predict_day = predict_range.pop("days", 1)
+    if not len(predict_range):
+        predict_day = 1
+    else:
+        predict_day = predict_range.pop("days", 0)
+
     str_dates = df.index
     ext_str_dates = pd.date_range(
         str_dates[0],
