@@ -13,15 +13,13 @@ services:
       context: services/analyze
     container_name: latency-predictor
     env_file:
-      - .env
+      - services/analyze/.env
     volumes:
-      - ${pwd}/out:/app/output
+      - ${PWD}/out:/app/output
     networks:
       - develop
     command: > 
       bash -c '
-        echo "Hellooooooooooooooo" &
-        ls &
         celery -A app beat & 
         celery -A app worker --loglevel=debug
       '

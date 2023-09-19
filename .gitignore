@@ -1,4 +1,5 @@
 env
+out/
 .env
 config/kibana
 keystore-*.txt
