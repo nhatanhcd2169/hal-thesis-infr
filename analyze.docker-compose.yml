@@ -1,0 +1,32 @@
+version: '1.0'
+
+services:
+  broker:
+    image: redis:latest
+    container_name: broker
+    networks:
+      - develop
+
+  latency-predictor:
+    image: timeseries-linear-regression-service:1.0
+    build:
+      context: services/analyze
+    container_name: latency-predictor
+    env_file:
+      - .env
+    volumes:
+      - ${pwd}/out:/app/output
+    networks:
+      - develop
+    command: > 
+      bash -c '
+        echo "Hellooooooooooooooo" &
+        ls &
+        celery -A app beat & 
+        celery -A app worker --loglevel=debug
+      '
+
+networks:
+  develop:
+    name: thesis
+    external: true
