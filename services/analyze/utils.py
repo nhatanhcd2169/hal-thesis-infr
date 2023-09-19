@@ -25,8 +25,17 @@ assert ELASTICSEARCH_INDEX
 assert check_config(ELASTICSEARCH_CONFIG, ["hosts"])
 assert check_config(POSTGRES_CONFIG, ["user", "password", "host", "port"])
 
+USER, PASSWORD, HOST, PORT = (
+    POSTGRES_CONFIG.pop("user"), 
+    POSTGRES_CONFIG.pop("password"), 
+    POSTGRES_CONFIG.pop("host"), 
+    POSTGRES_CONFIG.pop("port")
+)
 
-POSTGRES_URL = "postgres://{user}:{password}@{host}:{port}".format(**POSTGRES_CONFIG)
+POSTGRES_URL = f"postgres://{USER}:{PASSWORD}@{HOST}:{PORT}"
+
+if POSTGRES_CONFIG:
+    POSTGRES_URL += "&".join([f'{key}={POSTGRES_CONFIG[key]}' for key in POSTGRES_CONFIG])
 
 def get_service_metrics():
     total_aggs = []
