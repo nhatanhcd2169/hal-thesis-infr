@@ -162,7 +162,7 @@ def timeseries_linear_regression(
 
     lm = linear_model.LinearRegression()
     model = lm.fit(train_flt_dates.reshape(-1, 1), features)
-    weight, bias = model.coef_, model.intercept_
+    weight, bias, acc = model.coef_, model.intercept_, model.score(train_flt_dates.reshape(-1, 1), features)
     linear_formula = lambda flt_date: weight * flt_date + bias
 
     predict_values = np.array(
@@ -190,7 +190,8 @@ def timeseries_linear_regression(
         "predict_points": predict_,
         "linear_function": {
             "weight": weight,
-            "bias": bias
+            "bias": bias,
+            "acc": acc
         },
     }
     return output
