@@ -71,27 +71,21 @@ def get_service_metrics():
             }
             _fields = ["hour_truncated_time", "is_weekend"]
             _aggs = {
-                "latency_frequency_acc_wrt_time": {
+                "latency_percentiles_wrt_time": {
                     "terms": {
                         "field": "hour_truncated_time",
                         "order": {"_key": "desc"},
                         "size": 10000,
                     },
                     "aggs": {
-                        "latency_percentiles": {
+                        "percentages": {
                             "percentiles": {
                                 "field": "latencies.request",
                                 "percents": [25, 50, 75, 80, 85, 90, 99],
                             }
                         },
-                        "latency_stats": {"stats": {"field": "latencies.request"}},
-                        "frequency_stats": {"stats": {"field": ""}}
+                        "stats": {"stats": {"field": "latencies.request"}},
                     },
-                },
-                "frequency_wrt_time": {
-                    "terms": {
-                        "field": ""
-                    }
                 }
             }
 
