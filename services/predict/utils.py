@@ -1,6 +1,5 @@
 import os
 import json
-import logging
 import psycopg2
 import numpy as np
 import pandas as pd
@@ -14,9 +13,12 @@ from sklearn import metrics
 ELASTICSEARCH_INDEX = os.environ.get("ELASTICSEARCH_INDEX", None)
 ELASTICSEARCH_CONFIG = os.environ.get("ELASTICSEARCH_CONFIG", "{}")
 POSTGRES_CONFIG = os.environ.get("POSTGRES_CONFIG", "{}")
+PREDICT_RANGE = os.environ.get("PREDICT_RANGE", '{"days": 7}')
 
 ELASTICSEARCH_CONFIG = json.loads(ELASTICSEARCH_CONFIG)
 POSTGRES_CONFIG = json.loads(POSTGRES_CONFIG)
+PREDICT_RANGE = json.loads(PREDICT_RANGE)
+
 
 def check_config(config: dict, fields: list):
     for field in fields:
@@ -24,7 +26,6 @@ def check_config(config: dict, fields: list):
             return False
     return True
 
-logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
 assert ELASTICSEARCH_INDEX
 assert check_config(ELASTICSEARCH_CONFIG, ["hosts"])
@@ -37,7 +38,7 @@ USER, PASSWORD, HOST, PORT = (
     POSTGRES_CONFIG.pop("port"),
 )
 
-DATA_DIR = "data"
+DATA_DIR = "output"
 
 POSTGRES_URL = f"postgres://{USER}:{PASSWORD}@{HOST}:{PORT}"
 
@@ -52,16 +53,16 @@ PERCENTILES = [25, 50, 75, 80, 85, 90, 99]
 def pipeline_stage(stage_name: str):
     def wrapper(func):
         def inner(*args, **kwargs):
-            logging.info("---------------------------------------------------------------")
-            logging.info("start_stage:", stage_name)
+            print("---------------------------------------------------------------")
+            print("start_stage:", stage_name)
             func(*args, **kwargs)
             try:
                 pass
             except Exception as err:
-                logging.info("encounter error:", err.__class__.__name__)
-                logging.info("full detail:", err)
-            logging.info("end_stage:", stage_name)
-            logging.info("---------------------------------------------------------------")
+                print("encounter error:", err.__class__.__name__)
+                print("full detail:", err)
+            print("end_stage:", stage_name)
+            print("---------------------------------------------------------------")
 
         return inner
 
@@ -147,8 +148,8 @@ def stage_1():
                 )
 
     except Exception as err:
-        logging.warning("Encountered", err.__class__.__name__)
-        logging.warning(err)
+        print("Encountered", err.__class__.__name__)
+        print(err)
 
     finally:
         conn.close()
@@ -179,7 +180,7 @@ def stage_2():
             return samp_, feat_
 
         X_train, X_test, y_train, y_test = train_test_split(
-            *get_data(), test_size=2 / 5, random_state=0
+            *get_data(), test_size=1 / 3, random_state=0
         )
 
         return X_train, X_test, y_train, y_test
@@ -193,9 +194,14 @@ def stage_2():
 
         org_ts = {point["ts"]: idx for idx, point in enumerate(data)}
 
+        # TODO: Limit the output so that the payload is not too big
+        ext_start_range = to_date(data[-1]["ts"])
+        ext_predict_range = timedelta(**PREDICT_RANGE)
+        ext_end_range = datetime.utcnow() + ext_predict_range
+
         ext_date_range = pd.date_range(
-            to_date(data[-1]["ts"]),
-            to_date(data[0]["ts"]) + timedelta(days=2),
+            ext_start_range,
+            ext_end_range,
             freq="h",
         )
         test_samples = []
@@ -281,7 +287,9 @@ def stage_2():
                         "current": data[0]["ts"],
                         "end": ext_samples[-1][0],
                         "per_day": timedelta(days=1).total_seconds() * 1000,
+                        "per_hour": timedelta(hours=1).total_seconds() * 1000,
                     },
+                    "ts_unit": "ms",
                     "data": df.replace(np.nan, None).to_dict(orient="records"),
                 },
                 file,
@@ -301,18 +309,3 @@ def stage_3():
             index="predict",
             document=data,
         )
-
-
-def run(stages: list[int]):
-    pipe_stages = [
-        stage_1,
-        stage_2,
-        stage_3,
-    ]
-    if not len(stages):
-        for pipe_stage in pipe_stages:
-            pipe_stage()
-    else:
-        for stage in stages:
-            pipe_stages[stage]()
-

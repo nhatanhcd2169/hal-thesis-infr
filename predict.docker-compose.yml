@@ -5,19 +5,19 @@ services:
     image: redis:latest
     container_name: broker
     networks:
-      - develop
+      - predict
 
-  latency-predictor:
-    image: timeseries-linear-regression-service:1.0
+  predict-worker:
+    image: predict-service:1.0
     build:
-      context: services/analyze
-    container_name: latency-predictor
+      context: services/predict
+    container_name: predict-worker
     env_file:
-      - services/analyze/.env
+      - services/predict/.env
     volumes:
       - ${PWD}/out:/app/output
     networks:
-      - develop
+      - predict
     command: > 
       bash -c '
         celery -A app beat & 
@@ -25,6 +25,6 @@ services:
       '
 
 networks:
-  develop:
+  predict:
     name: thesis
     external: true
