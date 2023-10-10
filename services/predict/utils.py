@@ -252,8 +252,8 @@ def stage_2():
                     to_date(ext_samples[idx][0]).isoformat(),
                     *ext_samples[idx],
                     ext_features[idx],
-                    rfr_features[idx],
-                    lr_features[idx],
+                    rfr_features[idx] if rfr_features[idx] else 0,
+                    lr_features[idx] if lr_features[idx] else 0,
                 )
             )
         df = pd.DataFrame(
