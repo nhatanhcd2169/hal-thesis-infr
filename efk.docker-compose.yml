@@ -24,10 +24,7 @@ services:
       - ${PWD}/config/fluentd:/fluentd/etc
     ports:
       - "20001:20001/tcp"
-    command: >
-      bash -c '
-        fluentd -c /fluentd/etc/fluentd.conf -v
-      '
+    command: fluentd -c /fluentd/etc/fluentd.conf -v
     networks:
       - elastic
     
