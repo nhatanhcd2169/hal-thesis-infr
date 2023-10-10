@@ -11,7 +11,7 @@ result_backend = REDIS_URL
 beat_schedule = {
     "run-predict-pipeline": {
         "task": "tasks.run_pipeline",
-        "schedule": crontab(minute="*/1"),
+        "schedule": crontab(minute="*/5"),
     },
 }
 
