@@ -186,126 +186,132 @@ def stage_2():
         return X_train, X_test, y_train, y_test
 
     for service_id in os.listdir(DATA_DIR)[:]:
-        data = []
-        with open(f"{DATA_DIR}/{service_id}/new_metrics/stage-1.json", "r") as file:
-            data = json.load(file)["data"]
+        try:
+            data = []
+            with open(f"{DATA_DIR}/{service_id}/new_metrics/stage-1.json", "r") as file:
+                data = json.load(file)["data"]
 
-        train_samples, _, train_features, _ = get_Xy(data)
+            train_samples, _, train_features, _ = get_Xy(data)
 
-        org_ts = {point["ts"]: idx for idx, point in enumerate(data)}
+            org_ts = {point["ts"]: idx for idx, point in enumerate(data)}
 
-        # TODO: Limit the output so that the payload is not too big
-        ext_start_range = to_date(data[-1]["ts"])
-        ext_predict_range = timedelta(**PREDICT_RANGE)
-        ext_end_range = datetime.utcnow() + ext_predict_range
+            # TODO: Limit the output so that the payload is not too big
+            ext_start_range = to_date(data[-1]["ts"])
+            ext_predict_range = timedelta(**PREDICT_RANGE)
+            ext_end_range = datetime.utcnow() + ext_predict_range
 
-        ext_date_range = pd.date_range(
-            ext_start_range,
-            ext_end_range,
-            freq="h",
-        )
-        test_samples = []
-        test_features = []
-        ext_samples = []
-        ext_features = []
-        for idx, ext_date in enumerate(ext_date_range):
-            _sample = get_X(
-                {
-                    "ts": ext_date.timestamp() * 1000,
-                    "dow": ext_date.isoweekday(),
-                    "weekend": ext_date.isoweekday() in [6, 7],
-                }
+            ext_date_range = pd.date_range(
+                ext_start_range,
+                ext_end_range,
+                freq="h",
             )
-            _feature = None
-            if _sample[0] in org_ts:
-                org_idx = org_ts[_sample[0]]
-                _feature = get_Y(data[org_idx])
-                test_samples.append(_sample)
-                test_features.append(_feature)
-            ext_samples.append(_sample)
-            ext_features.append(_feature)
-
-        rfr = RandomForestRegressor(200).fit(train_samples, train_features)
-        lr = LinearRegression().fit(train_samples, train_features)
-        rfr_features = rfr.predict(ext_samples)
-        pred_features = [
-            rfr_features[idx]
-            for idx in range(len(ext_features))
-            if ext_features[idx] is not None
-        ]
-        rfr_mae = metrics.mean_absolute_error(test_features, pred_features)
-        rfr_mse = metrics.mean_squared_error(test_features, pred_features)
-        rfr_r2 = metrics.r2_score(test_features, pred_features)
-        lr_features = lr.predict(ext_samples)
-        pred_features = [
-            lr_features[idx]
-            for idx in range(len(ext_features))
-            if ext_features[idx] is not None
-        ]
-        lr_mae = metrics.mean_absolute_error(test_features, pred_features)
-        lr_mse = metrics.mean_squared_error(test_features, pred_features)
-        lr_r2 = metrics.r2_score(test_features, pred_features)
-        _df_data = []
-        for idx in range(len(ext_samples)):
-            _df_data.append(
-                (
-                    to_date(ext_samples[idx][0]).isoformat(),
-                    *ext_samples[idx],
-                    ext_features[idx],
-                    rfr_features[idx] if rfr_features[idx] else 0,
-                    lr_features[idx] if lr_features[idx] else 0,
+            test_samples = []
+            test_features = []
+            ext_samples = []
+            ext_features = []
+            for idx, ext_date in enumerate(ext_date_range):
+                _sample = get_X(
+                    {
+                        "ts": ext_date.timestamp() * 1000,
+                        "dow": ext_date.isoweekday(),
+                        "weekend": ext_date.isoweekday() in [6, 7],
+                    }
                 )
+                _feature = None
+                if _sample[0] in org_ts:
+                    org_idx = org_ts[_sample[0]]
+                    _feature = get_Y(data[org_idx])
+                    test_samples.append(_sample)
+                    test_features.append(_feature)
+                ext_samples.append(_sample)
+                ext_features.append(_feature)
+
+            rfr = RandomForestRegressor(200).fit(train_samples, train_features)
+            lr = LinearRegression().fit(train_samples, train_features)
+            rfr_features = rfr.predict(ext_samples)
+            pred_features = [
+                rfr_features[idx]
+                for idx in range(len(ext_features))
+                if ext_features[idx] is not None
+            ]
+            rfr_mae = metrics.mean_absolute_error(test_features, pred_features)
+            rfr_mse = metrics.mean_squared_error(test_features, pred_features)
+            rfr_r2 = metrics.r2_score(test_features, pred_features)
+            lr_features = lr.predict(ext_samples)
+            pred_features = [
+                lr_features[idx]
+                for idx in range(len(ext_features))
+                if ext_features[idx] is not None
+            ]
+            lr_mae = metrics.mean_absolute_error(test_features, pred_features)
+            lr_mse = metrics.mean_squared_error(test_features, pred_features)
+            lr_r2 = metrics.r2_score(test_features, pred_features)
+            _df_data = []
+            for idx in range(len(ext_samples)):
+                _df_data.append(
+                    (
+                        to_date(ext_samples[idx][0]).isoformat(),
+                        *ext_samples[idx],
+                        ext_features[idx],
+                        rfr_features[idx] if rfr_features[idx] else 0,
+                        lr_features[idx] if lr_features[idx] else 0,
+                    )
+                )
+            df = pd.DataFrame(
+                data=_df_data,
+                columns=[
+                    "ts_iso",
+                    "ts",
+                    "dow",
+                    "weekend",
+                    "latency",
+                    "latency_random_forest",
+                    "latency_linear",
+                ],
             )
-        df = pd.DataFrame(
-            data=_df_data,
-            columns=[
-                "ts_iso",
-                "ts",
-                "dow",
-                "weekend",
-                "latency",
-                "latency_random_forest",
-                "latency_linear",
-            ],
-        )
-        df.to_csv(
-            f"{DATA_DIR}/{service_id}/new_metrics/stage-2.csv", header=True, index=False
-        )
-        with open(f"{DATA_DIR}/{service_id}/new_metrics/stage-2.json", "w") as file:
-            json.dump(
-                {
-                    "metrics": {
-                        "mae_linear": lr_mae,
-                        "mse_linear": lr_mse,
-                        "r2_linear": lr_r2,
-                        "mae_random_forest": rfr_mae,
-                        "mse_random_forest": rfr_mse,
-                        "r2_random_forest": rfr_r2,
-                    },
-                    "predict_range": {
-                        "start": data[-1]["ts"],
-                        "current": data[0]["ts"],
-                        "end": ext_samples[-1][0],
-                        "per_day": timedelta(days=1).total_seconds() * 1000,
-                        "per_hour": timedelta(hours=1).total_seconds() * 1000,
-                    },
-                    "ts_unit": "ms",
-                    "data": df.replace(np.nan, None).to_dict(orient="records"),
-                },
-                file,
-                indent=None,
+            df.to_csv(
+                f"{DATA_DIR}/{service_id}/new_metrics/stage-2.csv", header=True, index=False
             )
+            with open(f"{DATA_DIR}/{service_id}/new_metrics/stage-2.json", "w") as file:
+                json.dump(
+                    {
+                        "metrics": {
+                            "mae_linear": lr_mae,
+                            "mse_linear": lr_mse,
+                            "r2_linear": lr_r2,
+                            "mae_random_forest": rfr_mae,
+                            "mse_random_forest": rfr_mse,
+                            "r2_random_forest": rfr_r2,
+                        },
+                        "predict_range": {
+                            "start": data[-1]["ts"],
+                            "current": data[0]["ts"],
+                            "end": ext_samples[-1][0],
+                            "per_day": timedelta(days=1).total_seconds() * 1000,
+                            "per_hour": timedelta(hours=1).total_seconds() * 1000,
+                        },
+                        "ts_unit": "ms",
+                        "data": df.replace(np.nan, None).to_dict(orient="records"),
+                    },
+                    file,
+                    indent=None,
+                )
+        except Exception as error:
+            print("deliberately ignore", error.__class__.__name__, ", caused by", error.__class__.__cause__)
 
 
 @pipeline_stage("ingest to ES")
 def stage_3():
     for service_id in os.listdir(DATA_DIR)[:]:
         data = {}
-        with open(f"{DATA_DIR}/{service_id}/new_metrics/stage-2.json", "r") as file:
-            data = json.load(file)
-        client = Elasticsearch(**ELASTICSEARCH_CONFIG)
-        client.index(
-            id=service_id,
-            index="predict",
-            document=data,
-        )
+        try:
+            with open(f"{DATA_DIR}/{service_id}/new_metrics/stage-2.json", "r") as file:
+                data = json.load(file)
+            client = Elasticsearch(**ELASTICSEARCH_CONFIG)
+            client.index(
+                id=service_id,
+                index="predict",
+                document=data,
+            )
+        except Exception as error:
+            print(error)
