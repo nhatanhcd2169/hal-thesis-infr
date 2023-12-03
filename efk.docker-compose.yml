@@ -4,9 +4,6 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
     container_name: elasticsearch
-    ports:
-      - "9200:9200"
-      - "9300:9300"
     environment:
       - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
       - discovery.type=single-node
@@ -22,8 +19,6 @@ services:
     container_name: fluentd
     volumes:
       - ${PWD}/config/fluentd:/fluentd/etc
-    ports:
-      - "20001:20001/tcp"
     command: fluentd -c /fluentd/etc/fluentd.conf -v
     networks:
       - elastic
