@@ -1,4 +1,5 @@
 import os
+import math
 import json
 import psycopg2
 import numpy as np
@@ -9,6 +10,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
+from schema import PredictOutput
 
 ELASTICSEARCH_INDEX = os.environ.get("ELASTICSEARCH_INDEX", None)
 ELASTICSEARCH_CONFIG = os.environ.get("ELASTICSEARCH_CONFIG", "{}")
@@ -184,8 +186,9 @@ def stage_2():
         )
 
         return X_train, X_test, y_train, y_test
-
-    for service_id in os.listdir(DATA_DIR)[:]:
+    
+    def process(service_id):
+        output = PredictOutput({})
         try:
             data = []
             with open(f"{DATA_DIR}/{service_id}/new_metrics/stage-1.json", "r") as file:
@@ -226,6 +229,15 @@ def stage_2():
                 ext_samples.append(_sample)
                 ext_features.append(_feature)
 
+            output["ts_unit"] = "ms"
+            output["predict_range"] = {
+                "start": data[-1]["ts"],
+                "current": data[0]["ts"],
+                "end": ext_samples[-1][0],
+                "per_day": timedelta(days=1).total_seconds() * 1000,
+                "per_hour": timedelta(hours=1).total_seconds() * 1000,
+            }
+
             rfr = RandomForestRegressor(200).fit(train_samples, train_features)
             lr = LinearRegression().fit(train_samples, train_features)
             rfr_features = rfr.predict(ext_samples)
@@ -246,6 +258,15 @@ def stage_2():
             lr_mae = metrics.mean_absolute_error(test_features, pred_features)
             lr_mse = metrics.mean_squared_error(test_features, pred_features)
             lr_r2 = metrics.r2_score(test_features, pred_features)
+
+            output["metrics"] = {
+                "mae_linear": lr_mae if not math.isnan(lr_mae) else None,
+                "mse_linear": lr_mse if not math.isnan(lr_mse) else None,
+                "r2_linear": lr_r2 if not math.isnan(lr_r2) else None,
+                "mae_random_forest": rfr_mae if not math.isnan(rfr_mae) else None,
+                "mse_random_forest": rfr_mse if not math.isnan(rfr_mse) else None,
+                "r2_random_forest": rfr_r2 if not math.isnan(rfr_r2) else None,
+            }
             _df_data = []
             for idx in range(len(ext_samples)):
                 _df_data.append(
@@ -272,33 +293,24 @@ def stage_2():
             df.to_csv(
                 f"{DATA_DIR}/{service_id}/new_metrics/stage-2.csv", header=True, index=False
             )
-            with open(f"{DATA_DIR}/{service_id}/new_metrics/stage-2.json", "w") as file:
+            output["data"] = df.replace([np.nan], None).to_dict(orient="records")
+
+        except Exception as error:
+            print("deliberately ignore", error)
+
+        finally:
+            with open(
+                f"{DATA_DIR}/{service_id}/new_metrics/stage-2.json", 
+                "w"
+            ) as file:
                 json.dump(
-                    {
-                        "metrics": {
-                            "mae_linear": lr_mae,
-                            "mse_linear": lr_mse,
-                            "r2_linear": lr_r2,
-                            "mae_random_forest": rfr_mae,
-                            "mse_random_forest": rfr_mse,
-                            "r2_random_forest": rfr_r2,
-                        },
-                        "predict_range": {
-                            "start": data[-1]["ts"],
-                            "current": data[0]["ts"],
-                            "end": ext_samples[-1][0],
-                            "per_day": timedelta(days=1).total_seconds() * 1000,
-                            "per_hour": timedelta(hours=1).total_seconds() * 1000,
-                        },
-                        "ts_unit": "ms",
-                        "data": df.replace(np.nan, None).to_dict(orient="records"),
-                    },
+                    output,
                     file,
                     indent=None,
                 )
-        except Exception as error:
-            print("deliberately ignore", error.__class__.__name__, ", caused by", error.__class__.__cause__)
 
+    for service_id in os.listdir(DATA_DIR)[:]:
+        process(service_id)
 
 @pipeline_stage("ingest to ES")
 def stage_3():
@@ -307,11 +319,11 @@ def stage_3():
         try:
             with open(f"{DATA_DIR}/{service_id}/new_metrics/stage-2.json", "r") as file:
                 data = json.load(file)
-            client = Elasticsearch(**ELASTICSEARCH_CONFIG)
-            client.index(
-                id=service_id,
-                index="predict",
-                document=data,
-            )
         except Exception as error:
             print(error)
+        client = Elasticsearch(**ELASTICSEARCH_CONFIG)
+        client.index(
+            id=service_id,
+            index="predict",
+            document=data,
+        )
